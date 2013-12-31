@@ -106,7 +106,7 @@ public class Activity_result extends SherlockActivity {
 	 * Share the result text
 	 */
 	public void resultShare() {
-		String text = getResources().getText(R.string.result_share_text_prefix) + ">> " + resultText + "　<<";
+		String text = getResources().getText(R.string.result_share_text_prefix) + ">> " + resultText + " <<";
 		Intent intent = new Intent(android.content.Intent.ACTION_SEND);
 		intent.setType("text/plain");
 		intent.putExtra(Intent.EXTRA_TEXT, text);

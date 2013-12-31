@@ -210,8 +210,8 @@ public class MainActivity extends SherlockActivity implements DismissCallbacks,
 		if (requestCode == INTENT_REQUEST_CODE && resultCode == RESULT_OK) {
 			ArrayList<String> results = data
 					.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-			for (int i = 0; i < results.size(); i++) {
-				choiceAdd(results.get(i));
+			if (0 < results.size()) {
+				choiceAdd(results.get(0));
 			}
 		}
 		super.onActivityResult(requestCode, resultCode, data);

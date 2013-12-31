@@ -15,8 +15,8 @@
     <string name="main_choices_input_add">Add</string>
     <string name="appinfo_title">About</string>
     <string name="result_title">Mitibiki result</string>
-    <string name="result_description_processing">Now processing...</string>
-    <string name="result_description_done">The results came out:</string>
+    <string name="result_processing">Now processing...</string>
+    <string name="result_description">The results came out:</string>
     <string name="result_notice">[NOTICE] This result is only to chosen by random number.\n Even if you are doing anything according to this result,\n it\'s not guaranteed at all \;-)</string>
     <string name="result_menu_share">Share</string>
     <string name="result_share_title">Share the result</string>

@@ -6,8 +6,11 @@
     <string name="general_menu_about">アプリについて</string>
     <string name="general_menu_run">導いてもらう</string>
     <string name="general_menu_clear">選択肢の全消去</string>
+    <string name="general_error_speech_recog_activity_notfound">エラー: 音声認識エンジンがインストールされていません。</string>
     <string name="main_choices_input_hint">選択肢を入力 (例: 和食, 洋食):</string>
     <string name="main_choices_input_voice_prompt">選択肢をお話し下さい (例: 和食, 洋食)</string>
+    <string name="main_choices_input_voice">選択肢を音声で入力</string>
+    <string name="main_choices_input_add">選択肢を追加</string>
     <string name="appinfo_title">アプリについて</string>
     <string name="result_title">ミチビキ結果</string>
     <string name="result_processing">ミチビキが導いています...</string>
