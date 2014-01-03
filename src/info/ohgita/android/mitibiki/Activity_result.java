@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.example.info.ohgita.android.mitibiki.R;
 
 public class Activity_result extends SherlockActivity {
 	private final static int MENU_ID_SHARE = 0;

@@ -9,6 +9,7 @@ import android.speech.RecognizerIntent;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -18,7 +19,6 @@ import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
-import com.example.info.ohgita.android.mitibiki.R;
 import com.google.android.apps.dashclock.ui.SwipeDismissListViewTouchListener;
 import com.google.android.apps.dashclock.ui.SwipeDismissListViewTouchListener.DismissCallbacks;
 import com.actionbarsherlock.view.Menu;
@@ -124,9 +124,11 @@ public class MainActivity extends SherlockActivity implements DismissCallbacks,
 	 * Remove a choice item
 	 */
 	public void choiceRemove(int id) {
-		choices.remove(id);
-		choicesListAdapter.clear();
-		choicesListAdapter.addAll(choices);
+		if (id < choices.size()) {
+			choices.remove(id);
+			choicesListAdapter.clear();
+			choicesListAdapter.addAll(choices);
+		}
 	}
 
 	/**
@@ -148,11 +150,14 @@ public class MainActivity extends SherlockActivity implements DismissCallbacks,
 
 	@Override
 	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-		if (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+		if (actionId == EditorInfo.IME_ACTION_NONE || event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
 			// Add to choices
 			choiceAdd(v.getEditableText().toString());
 			// Clear a input-form
 			v.setText("");
+			v.findFocus();
+		} else {
+			Toast.makeText(this, "Press:" + actionId, Toast.LENGTH_SHORT).show();
 		}
 		return false;
 	}

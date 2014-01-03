@@ -6,7 +6,6 @@ import android.webkit.WebView;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
-import com.example.info.ohgita.android.mitibiki.R;
 
 public class Activity_appInfo extends SherlockActivity {
 	@Override
