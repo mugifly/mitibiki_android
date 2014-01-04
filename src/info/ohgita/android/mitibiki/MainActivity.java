@@ -10,6 +10,9 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -19,13 +22,12 @@ import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
-import com.google.android.apps.dashclock.ui.SwipeDismissListViewTouchListener;
-import com.google.android.apps.dashclock.ui.SwipeDismissListViewTouchListener.DismissCallbacks;
+import com.haarman.listviewanimations.itemmanipulation.OnDismissCallback;
+import com.haarman.listviewanimations.itemmanipulation.SwipeDismissAdapter;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class MainActivity extends SherlockActivity implements DismissCallbacks,
-		OnEditorActionListener, OnClickListener {
+public class MainActivity extends SherlockActivity implements OnEditorActionListener, OnClickListener, OnDismissCallback {
 	private final static int MENU_ID_RUN = 0;
 	private final static int MENU_ID_CLEAR = 1;
 	private final static int MENU_ID_ABOUT = 2;
@@ -33,6 +35,9 @@ public class MainActivity extends SherlockActivity implements DismissCallbacks,
 
 	private ArrayList<String> choices;
 	private ArrayAdapter<String> choicesListAdapter;
+	private SwipeDismissAdapter choicesListSwipeDismissAdapter;
+	
+	private int showHintCount;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,15 +45,24 @@ public class MainActivity extends SherlockActivity implements DismissCallbacks,
 		setContentView(R.layout.activity_main);
 
 		// Initialize a Choices ListView
-		choicesListAdapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1);
+		showHintCount = 0;
+		choicesListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+		choicesListSwipeDismissAdapter = new SwipeDismissAdapter(choicesListAdapter, this);
 		ListView lv = (ListView) findViewById(R.id.listView_Choises);
-		lv.setAdapter(choicesListAdapter);
-		SwipeDismissListViewTouchListener listener = new SwipeDismissListViewTouchListener(
-				lv, this);
-		lv.setOnTouchListener(listener);
-		lv.setOnScrollListener(listener.makeScrollListener());
-
+		lv.setOnItemLongClickListener(new OnItemLongClickListener(){
+			@Override
+			public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+				if (showHintCount <= 1) {
+					Toast.makeText(getApplicationContext(), getResources().getString(R.string.main_choices_item_longclick_hint), Toast.LENGTH_SHORT).show();
+				}
+				showHintCount++;
+				return false;
+			}
+			
+		});
+		choicesListSwipeDismissAdapter.setAbsListView(lv);
+		lv.setAdapter(choicesListSwipeDismissAdapter);
+		
 		// Initialize a Choice input form
 		EditText choice_input_et = (EditText) findViewById(R.id.editText_main_choiceInput);
 		choice_input_et.setOnEditorActionListener(this);
@@ -84,24 +98,6 @@ public class MainActivity extends SherlockActivity implements DismissCallbacks,
 		return true;
 	}
 
-	@Override
-	public boolean canDismiss(int position) {
-		return position <= choicesListAdapter.getCount() - 1;
-	}
-
-	/**
-	 * On choice item has dismissed
-	 */
-	@Override
-	public void onDismiss(ListView listView, int[] reverseSortedPositions) {
-		for (int position : reverseSortedPositions) {
-			choiceRemove(position);
-			// String str = choicesListAdapter.getItem(position);
-			// choicesListAdapter.remove(str);
-		}
-		choicesListAdapter.notifyDataSetChanged();
-	}
-
 	/**
 	 * Add a choice item
 	 * 
@@ -112,7 +108,10 @@ public class MainActivity extends SherlockActivity implements DismissCallbacks,
 		if (0 < text.length()) {
 			choices.add(text);
 			choicesListAdapter.clear();
-			choicesListAdapter.addAll(choices);
+			for (int i = 0; i < choices.size(); i++) {
+				choicesListAdapter.add(choices.get(i));
+			}
+			choicesListSwipeDismissAdapter.notifyDataSetChanged();
 			EditText et = (EditText) findViewById(R.id.editText_main_choiceInput);
 			et.requestFocus();
 			return true;
@@ -127,8 +126,11 @@ public class MainActivity extends SherlockActivity implements DismissCallbacks,
 		if (id < choices.size()) {
 			choices.remove(id);
 			choicesListAdapter.clear();
-			choicesListAdapter.addAll(choices);
+			for (int i = 0; i < choices.size(); i++) {
+				choicesListAdapter.add(choices.get(i));
+			}
 		}
+		choicesListSwipeDismissAdapter.notifyDataSetChanged();
 	}
 
 	/**
@@ -235,7 +237,16 @@ public class MainActivity extends SherlockActivity implements DismissCallbacks,
 				.getStringArrayList("choices");
 		if (list != null) {
 			choices = list;
-			choicesListAdapter.addAll(choices);
+			for (int i = 0; i < choices.size(); i++) {
+				choicesListAdapter.add(choices.get(i));
+			}
 		}
+	}
+
+	@Override
+	public void onDismiss(AbsListView listView, int[] reverseSortedPositions) {
+		for (int position : reverseSortedPositions) {
+			choiceRemove(position);
+	    }
 	}
 }

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="info.ohgita.android.mitibiki"
-    android:versionCode="1"
-    android:versionName="1.0.0" android:installLocation="auto">
+    android:versionCode="2"
+    android:versionName="1.0.1" android:installLocation="auto">
 
     <uses-sdk
-        android:minSdkVersion="12"
-        android:targetSdkVersion="18" />
+        android:minSdkVersion="8"
+        android:targetSdkVersion="11" />
 
     <application
         android:allowBackup="true"

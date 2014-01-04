@@ -11,6 +11,7 @@
     <string name="main_choices_input_voice_prompt">選択肢をお話し下さい (例: 和食, 洋食)</string>
     <string name="main_choices_input_voice">選択肢を音声で入力</string>
     <string name="main_choices_input_add">選択肢を追加</string>
+    <string name="main_choices_item_longclick_hint">選択肢を削除するには、項目を横にスワイプしてください。</string>
     <string name="appinfo_title">アプリについて</string>
     <string name="result_title">ミチビキ結果</string>
     <string name="result_processing">ミチビキが導いています...</string>

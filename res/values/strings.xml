@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Mitibiki</string>
     <string name="app_author">Masanori Ohgita (mugifly)</string>
-    <string name="app_version">1.0.0</string>
+    <string name="app_version">1.0.1</string>
     <string name="app_description">Guide you with using random number :D</string>
     <string name="app_description_long">Guide you with using random number :D</string>
     <string name="general_menu_about">About</string>
@@ -13,6 +13,7 @@
     <string name="main_choices_input_voice_prompt">Input choice (e.g.: "Noodles")</string>
     <string name="main_choices_input_voice">Voice input</string>
     <string name="main_choices_input_add">Add</string>
+    <string name="main_choices_item_longclick_hint">To remove a item, please swipe the line.</string>
     <string name="appinfo_title">About</string>
     <string name="result_title">Mitibiki result</string>
     <string name="result_processing">Now processing...</string>
