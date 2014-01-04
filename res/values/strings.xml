@@ -6,9 +6,9 @@
     <string name="app_description">Guide you with using random number :D</string>
     <string name="app_description_long">Guide you with using random number :D</string>
     <string name="general_menu_about">About</string>
-    <string name="general_menu_run">Run</string>
     <string name="general_menu_clear">Clear all</string>
     <string name="general_error_speech_recog_activity_notfound">Error: Speech-recognizer is not installed.</string>
+    <string name="main_button_run">Run</string>
     <string name="main_choices_input_hint">Input choice (e.g.: "Noodles")</string>
     <string name="main_choices_input_voice_prompt">Input choice (e.g.: "Noodles")</string>
     <string name="main_choices_input_voice">Voice input</string>

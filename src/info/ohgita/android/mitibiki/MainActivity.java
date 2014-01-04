@@ -81,10 +81,10 @@ public class MainActivity extends SherlockActivity implements OnEditorActionList
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 
-		MenuItem item_run = menu.add(Menu.NONE, MENU_ID_RUN, 0,
-				R.string.general_menu_run);
+		/*MenuItem item_run = menu.add(Menu.NONE, MENU_ID_RUN, 0,
+				R.string.main_button_run);
 		item_run.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-		item_run.setIcon(R.drawable.ic_action_send);
+		item_run.setIcon(R.drawable.ic_action_send);*/
 
 		MenuItem item_clear = menu.add(Menu.NONE, MENU_ID_CLEAR, 0,
 				R.string.general_menu_clear);
