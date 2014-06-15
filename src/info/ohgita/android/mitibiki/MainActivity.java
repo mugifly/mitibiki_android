@@ -14,6 +14,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -36,6 +37,7 @@ public class MainActivity extends SherlockActivity implements OnEditorActionList
 	private ArrayList<String> choices;
 	private ArrayAdapter<String> choicesListAdapter;
 	private SwipeDismissAdapter choicesListSwipeDismissAdapter;
+	private Button buttonDoMitibiki;
 	
 	private int showHintCount;
 
@@ -43,7 +45,7 @@ public class MainActivity extends SherlockActivity implements OnEditorActionList
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
+		
 		// Initialize a Choices ListView
 		showHintCount = 0;
 		choicesListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
@@ -70,11 +72,14 @@ public class MainActivity extends SherlockActivity implements OnEditorActionList
 		// Initialize buttons
 		ImageButton choice_input_add_btn = (ImageButton) findViewById(R.id.imageButtonChoicesInputAdd);
 		choice_input_add_btn.setOnClickListener(this);
-		ImageButton choice_input_voice_btn = (ImageButton) findViewById(R.id.imageButtonChoicesInputVoice);
+		Button choice_input_voice_btn = (Button) findViewById(R.id.buttonChoicesInputVoice);
 		choice_input_voice_btn.setOnClickListener(this);
-
+		buttonDoMitibiki = (Button) findViewById(R.id.buttonDoMitibiki);
+		buttonDoMitibiki.setOnClickListener(this);
+		
 		// Initialize choices
 		choices = new ArrayList<String>();
+		buttonDoMitibiki.setEnabled(false);
 	}
 
 	@Override
@@ -104,7 +109,7 @@ public class MainActivity extends SherlockActivity implements OnEditorActionList
 	 * @param Choice
 	 *            text
 	 */
-	private boolean choiceAdd(String text) {
+	private boolean addChoice(String text) {
 		if (0 < text.length()) {
 			choices.add(text);
 			choicesListAdapter.clear();
@@ -114,6 +119,8 @@ public class MainActivity extends SherlockActivity implements OnEditorActionList
 			choicesListSwipeDismissAdapter.notifyDataSetChanged();
 			EditText et = (EditText) findViewById(R.id.editText_main_choiceInput);
 			et.requestFocus();
+			
+			buttonDoMitibiki.setEnabled(true);
 			return true;
 		}
 		return false;
@@ -122,7 +129,7 @@ public class MainActivity extends SherlockActivity implements OnEditorActionList
 	/**
 	 * Remove a choice item
 	 */
-	public void choiceRemove(int id) {
+	private void removeChoice(int id) {
 		if (id < choices.size()) {
 			choices.remove(id);
 			choicesListAdapter.clear();
@@ -130,31 +137,36 @@ public class MainActivity extends SherlockActivity implements OnEditorActionList
 				choicesListAdapter.add(choices.get(i));
 			}
 		}
+		
+		if (choices.isEmpty()) {
+			buttonDoMitibiki.setEnabled(false);
+		}
 		choicesListSwipeDismissAdapter.notifyDataSetChanged();
 	}
 
 	/**
 	 * Clear all choice items
 	 */
-	public void choicesClear() {
+	private void clearChoices() {
 		choicesListAdapter.clear();
+		buttonDoMitibiki.setEnabled(false);
 	}
 
 	/**
 	 * Run mitibiki with choices
 	 */
-	public void mitibikiRun() {
+	private void doMitibiki() {
 		Intent intent = new Intent(this.getApplicationContext(),
 				Activity_result.class);
 		intent.putExtra("choices", choices);
 		startActivity(intent);
 	}
-
+	
 	@Override
 	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 		if (actionId == EditorInfo.IME_ACTION_NONE || event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
 			// Add to choices
-			choiceAdd(v.getEditableText().toString());
+			addChoice(v.getEditableText().toString());
 			// Clear a input-form
 			v.setText("");
 			v.findFocus();
@@ -166,13 +178,15 @@ public class MainActivity extends SherlockActivity implements OnEditorActionList
 
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.imageButtonChoicesInputAdd) {
+		if (v.getId() == R.id.buttonDoMitibiki) {
+			doMitibiki();
+		} else if (v.getId() == R.id.imageButtonChoicesInputAdd) {
 			// Add to choices
 			EditText et = (EditText) findViewById(R.id.editText_main_choiceInput);
-			choiceAdd(et.getEditableText().toString());
+			addChoice(et.getEditableText().toString());
 			// Clear a input-form
 			et.setText("");
-		} else if (v.getId() == R.id.imageButtonChoicesInputVoice) {
+		} else if (v.getId() == R.id.buttonChoicesInputVoice) {
 			// Input a choice with using Voice-recognition
 			try {
 				Intent intent = new Intent(
@@ -197,10 +211,10 @@ public class MainActivity extends SherlockActivity implements OnEditorActionList
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case MENU_ID_RUN:
-			mitibikiRun();
+			doMitibiki();
 			return true;
 		case MENU_ID_CLEAR:
-			choicesClear();
+			clearChoices();
 			return true;
 		case MENU_ID_ABOUT:
 			Intent intent_0 = new Intent(this.getApplicationContext(),
@@ -218,7 +232,10 @@ public class MainActivity extends SherlockActivity implements OnEditorActionList
 			ArrayList<String> results = data
 					.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 			if (0 < results.size()) {
-				choiceAdd(results.get(0));
+				String[] items = results.get(0).split(" ");
+				for (int i = 0; i < items.length; i++) {
+					addChoice(items[i]);
+				}
 			}
 		}
 		super.onActivityResult(requestCode, resultCode, data);
@@ -240,13 +257,14 @@ public class MainActivity extends SherlockActivity implements OnEditorActionList
 			for (int i = 0; i < choices.size(); i++) {
 				choicesListAdapter.add(choices.get(i));
 			}
+			buttonDoMitibiki.setEnabled(true);
 		}
 	}
 
 	@Override
 	public void onDismiss(AbsListView listView, int[] reverseSortedPositions) {
 		for (int position : reverseSortedPositions) {
-			choiceRemove(position);
+			removeChoice(position);
 	    }
 	}
 }

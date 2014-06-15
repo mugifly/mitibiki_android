@@ -1,8 +1,6 @@
 package info.ohgita.android.mitibiki;
 
 import java.util.ArrayList;
-import java.util.Random;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -42,7 +40,7 @@ public class Activity_result extends SherlockActivity {
 		}
 		
 		// Run mitibiki
-		ArrayList<String> choices = (ArrayList<String>) intent.getExtras().get("choices");
+		ArrayList<String> choices = intent.getExtras().getStringArrayList("choices");
 		if (mitibiki(choices) == null) {
 			finish();
 		}
@@ -105,7 +103,10 @@ public class Activity_result extends SherlockActivity {
 	 * Share the result text
 	 */
 	public void resultShare() {
-		String text = getResources().getText(R.string.result_share_text_prefix) + ">> " + resultText + " <<";
+		if (resultText == null) {
+			return;
+		}
+		CharSequence text = getResources().getString(R.string.result_share_text, " >> " + resultText + " << ");
 		Intent intent = new Intent(android.content.Intent.ACTION_SEND);
 		intent.setType("text/plain");
 		intent.putExtra(Intent.EXTRA_TEXT, text);
