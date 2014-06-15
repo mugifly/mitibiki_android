@@ -33,7 +33,7 @@ public class MainActivity extends SherlockActivity implements OnEditorActionList
 	private final static int MENU_ID_CLEAR = 1;
 	private final static int MENU_ID_ABOUT = 2;
 	private final static int INTENT_REQUEST_CODE = 1000;
-
+	
 	private ArrayList<String> choices;
 	private ArrayAdapter<String> choicesListAdapter;
 	private SwipeDismissAdapter choicesListSwipeDismissAdapter;
@@ -148,10 +148,12 @@ public class MainActivity extends SherlockActivity implements OnEditorActionList
 	 * Clear all choice items
 	 */
 	private void clearChoices() {
+		choices.clear();
 		choicesListAdapter.clear();
+		choicesListSwipeDismissAdapter.notifyDataSetChanged();
 		buttonDoMitibiki.setEnabled(false);
 	}
-
+	
 	/**
 	 * Run mitibiki with choices
 	 */
