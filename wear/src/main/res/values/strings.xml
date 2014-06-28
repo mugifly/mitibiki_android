@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Mitibiki</string>
+    <string name="message_prompt_input_choices_by_voice">Please tell me choices.\ne.g. \"Spaghetti, Ramen, &#8230;\"</string>
+    <string name="message_mitibiki_result_title">Mitibiki result</string>
+    <string name="action_retry">Retry</string>
+</resources>

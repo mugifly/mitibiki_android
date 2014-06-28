@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ミチビキ</string>
+    <string name="message_prompt_input_choices_by_voice">選択肢をお話しください\n(例: \"うどん そば ラーメン\")</string>
+    <string name="message_mitibiki_result_title">ミチビキました</string>
+    <string name="action_retry">もう一度</string>
+</resources>

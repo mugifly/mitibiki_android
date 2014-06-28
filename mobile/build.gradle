@@ -1,0 +1,41 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 20
+    buildToolsVersion "20.0.0"
+
+    defaultConfig {
+        applicationId "info.ohgita.android.mitibiki"
+        minSdkVersion 9
+        targetSdkVersion 20
+        versionCode 5
+        versionName "1.2.0"
+    }
+    buildTypes {
+        release {
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/java']
+        }
+    }
+    lintOptions {
+        disable 'MissingTranslation'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
+    compile 'com.nhaarman.listviewanimations:library:2.6.0'
+    compile 'com.google.android.gms:play-services:5.0.+@aar'
+    //compile 'com.android.support:support-v4:20.0.+'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    wearApp project(':wear')
+}
