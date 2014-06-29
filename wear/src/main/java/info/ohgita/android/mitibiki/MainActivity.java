@@ -99,7 +99,7 @@ public class MainActivity extends InsetActivity {
 			.setContentText(result)
 			.setPriority(NotificationCompat.PRIORITY_HIGH)
 			.setAutoCancel(true)
-			.addAction(R.drawable.ic_action_send, getString(R.string.action_retry), pending_intent_retry)
+			.addAction(R.drawable.ic_action_refresh, getString(R.string.action_retry), pending_intent_retry)
 		;
 
 		// Launch a notification
